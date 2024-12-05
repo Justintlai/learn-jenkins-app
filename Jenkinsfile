@@ -3,6 +3,30 @@ pipeline {
     agent any
 
     stages {
+        stage('Install'){
+            agent {
+                docker {
+                    image 'node:18-alpine' // Using Node.js Alpine image
+                    reuseNode true
+                }
+            }
+            steps {
+                sh '''
+                    # List all files in the current workspace for debugging purposes.
+                    ls -la
+                    
+                    # Display the Node.js version for compatibility confirmation.
+                    node --version
+                    
+                    # Display the npm version for compatibility confirmation.
+                    npm --version
+                    
+                    # Install project dependencies using npm's clean install.
+                    npm ci
+                '''
+            }
+        }
+
         stage('Build') {
             // Specify the Docker container that will be used for this stage.
             agent {
@@ -17,18 +41,6 @@ pipeline {
             steps {
                 // Execute shell commands to build the Node.js application.
                 sh '''
-                    # List all files in the current workspace for debugging purposes.
-                    ls -la
-                    
-                    # Display the Node.js version for compatibility confirmation.
-                    node --version
-                    
-                    # Display the npm version for compatibility confirmation.
-                    npm --version
-                    
-                    # Install project dependencies using npm's clean install.
-                    npm ci
-                    
                     # Build the application using the npm `build` script defined in package.json.
                     npm run build
                     
