@@ -48,13 +48,13 @@ pipeline {
             steps {
                 // Check if index.html exists
                 sh '''
-                    if [ -f "build/index.html" ]; then
-                        echo "index.html exists."
-                    else
-                        echo "index.html does not exist."
-                        exit 1
-                    fi
+                    # Debug: List contents of the build directory
+                    ls -la build
 
+                    # Check if index.html exists
+                    test -f "build/index.html"
+
+                    # Run tests
                     npm test
                 '''
             }
