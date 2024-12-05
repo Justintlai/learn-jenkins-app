@@ -39,6 +39,12 @@ pipeline {
         }
 
         stage('Test') {
+            agent {
+                docker {
+                    image 'node:18-alpine' // Using Node.js Alpine image
+                    reuseNode true
+                }
+            }
             steps {
                 // Check if index.html exists
                 sh '''
