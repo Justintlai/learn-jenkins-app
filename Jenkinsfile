@@ -42,7 +42,7 @@ pipeline {
             steps {
                 // Check if index.html exists
                 sh '''
-                    if [ -f "index.html" ]; then
+                    if [ -f "build/index.html" ]; then
                         echo "index.html exists."
                     else
                         echo "index.html does not exist."
