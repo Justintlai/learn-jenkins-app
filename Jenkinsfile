@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Install'){
+        stage('Install') {
             agent {
                 docker {
                     image 'node:18-alpine' // Using Node.js Alpine image
@@ -92,6 +92,7 @@ pipeline {
                     }
                 }
             }
+        }
     }
     
     post {
