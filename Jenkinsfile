@@ -67,6 +67,7 @@ pipeline {
                     steps {
                         // Check if index.html exists
                         sh '''
+                            echo 'Unit Tests'
                             # Debug: List contents of the build directory
                             ls -la build
 
