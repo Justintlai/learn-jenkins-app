@@ -132,7 +132,14 @@ pipeline {
                     echo "Deploying to staging. Site ID: $NETLIFY_SITE_ID"
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --json > deploy-output.json
+
+                    # Assign the output to the shell variable CI_ENVIRONMENT_URL
                     CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)
+
+                    # Echo the value to confirm it
+                    echo "CI_ENVIRONMENT_URL is now: $CI_ENVIRONMENT_URL"
+
+                    # Run tests
                     npx playwright test --reporter=html
                 '''
             }
