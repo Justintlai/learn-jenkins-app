@@ -2,6 +2,10 @@ pipeline {
     // The `agent any` directive specifies that the pipeline can run on any available agent.
     agent any
 
+    environment {
+        NETLIFY_SITE_ID = '5f2446d5-f225-4e67-9a6a-eb3b87ec2879'
+    }
+
     stages {
         stage('Install') {
             agent {
@@ -115,6 +119,7 @@ pipeline {
                 sh '''
                     npm install netlify-cli
                     node_modules/.bin/netlify --version
+                    echo "Deploying to production. Site ID: $NETLIFY_SITE_ID"
                 '''
             }
         }
