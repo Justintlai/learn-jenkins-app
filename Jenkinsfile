@@ -50,45 +50,48 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node:18-alpine' // Using Node.js Alpine image
-                    reuseNode true
+        stage('Tests') {
+            parallel {
+                stage('Unit Tests') {
+                    agent {
+                        docker {
+                            image 'node:18-alpine' // Using Node.js Alpine image
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        // Check if index.html exists
+                        sh '''
+                            # Debug: List contents of the build directory
+                            ls -la build
+
+                            # Check if index.html exists
+                            test -f "build/index.html"
+
+                            # Run tests
+                            npm test
+                        '''
+                    }
+                }
+
+                stage('E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        // Check if index.html exists
+                        sh '''
+                            npm install serve --save-dev
+                            npx serve -s build &
+                            sleep 10
+                            npx playwright test --reporter=html
+                        '''
+                    }
                 }
             }
-            steps {
-                // Check if index.html exists
-                sh '''
-                    # Debug: List contents of the build directory
-                    ls -la build
-
-                    # Check if index.html exists
-                    test -f "build/index.html"
-
-                    # Run tests
-                    npm test
-                '''
-            }
-        }
-
-        stage('E2E') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
-                    reuseNode true
-                }
-            }
-            steps {
-                // Check if index.html exists
-                sh '''
-                    npm install serve --save-dev
-                    npx serve -s build &
-                    sleep 10
-                    npx playwright test --reporter=html
-                '''
-            }
-        }
     }
     
     post {
