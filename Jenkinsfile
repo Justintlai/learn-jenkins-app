@@ -93,10 +93,6 @@ pipeline {
                         }
                     }
 
-                    environment {
-                        CI_ENVIRONMENT_URL = 'https://legendary-mandazi-cb76b4.netlify.app'
-                    }
-
                     steps {
                         // Check if index.html exists
                         sh '''
@@ -106,7 +102,7 @@ pipeline {
                             npx playwright test --reporter=html
                         '''
                     }
-                    
+
                     post {
                         always {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright Local Report', reportTitles: '', useWrapperFileDirectly: true])
@@ -141,12 +137,18 @@ pipeline {
                     reuseNode true
                 }
             }
+
+            environment {
+                CI_ENVIRONMENT_URL = 'https://legendary-mandazi-cb76b4.netlify.app'
+            }
+
             steps {
                 // Check if index.html exists
                 sh '''
                     npx playwright test --reporter=html
                 '''
             }
+            
             post {
                 always {
                     publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright E2E Report', reportTitles: '', useWrapperFileDirectly: true])
