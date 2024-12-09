@@ -83,7 +83,8 @@ pipeline {
                 // Check if index.html exists
                 sh '''
                     npm install serve --save-dev
-                    npx serve -s build
+                    npx serve -s build &
+                    sleep 10
                     npx playwright test
                 '''
             }
