@@ -121,7 +121,7 @@ pipeline {
             }
 
             environment {
-                CI_ENVIRONMENT_URL = ''
+                CI_ENVIRONMENT_URL = 'STAGING_URL_TO_BE_SET'
             }
 
             steps {
@@ -135,6 +135,7 @@ pipeline {
 
                     # Assign the output to the shell variable CI_ENVIRONMENT_URL
                     CI_ENVIRONMENT_URL=$(node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)
+                    export CI_ENVIRONMENT_URL
 
                     # Echo the value to confirm it
                     echo "CI_ENVIRONMENT_URL is now: $CI_ENVIRONMENT_URL"
