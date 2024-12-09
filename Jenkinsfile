@@ -85,7 +85,7 @@ pipeline {
                     npm install serve --save-dev
                     npx serve -s build &
                     sleep 10
-                    npx playwright test
+                    npx playwright test --reporter=html
                 '''
             }
         }
