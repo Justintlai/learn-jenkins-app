@@ -1,0 +1,12 @@
+pipeline {
+    // The `agent any` directive specifies that the pipeline can run on any available agent.
+    agent any
+
+    stages {
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t my-playwright .'
+            }
+        }
+    }
+}
