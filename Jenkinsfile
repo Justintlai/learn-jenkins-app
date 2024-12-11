@@ -8,6 +8,12 @@ pipeline {
         REACT_APP_VERSION = "1.0.$BUILD_ID"
     }
     stages {
+        stage('Test Docker') {
+            steps {
+                sh 'docker --version'
+                sh 'docker info'
+            }
+        }
         stage('AWS') {
             agent {
                 docker {
