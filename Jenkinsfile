@@ -19,7 +19,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'aws-s3', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
                     sh '''
                         aws --version
-                        aws esc register-task-definition --cli-input-json file://aws/task-definition-prod.json
+                        aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json
                     '''
                 }
             }
